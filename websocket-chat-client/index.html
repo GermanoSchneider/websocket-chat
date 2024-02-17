@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    
+    <section class="section">
+        <h1>Group Chat</h1>
+        <div id="chat-messages"></div>
+    </section>
+    <hr>
+    <section class="section">
+        <div>
+            <input type="text" name="message" id="message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </section>
+
+</body>
+
+<script>
+
+    var ws = new WebSocket("ws://localhost:8080/chat")
+
+    ws.onmessage = (message) => {
+
+        let p = document.createElement('p')
+        p.textContent = message.data;
+
+        document.getElementById("chat-messages").prepend(p)
+    }
+
+    function sendMessage() {
+
+        var value = document.getElementById("message").value;
+
+        ws.send(value)
+    }
+
+</script>
+
+</html>
